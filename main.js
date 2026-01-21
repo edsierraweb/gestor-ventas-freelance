@@ -49,7 +49,7 @@ function consultarClientes() {
       mensaje += "Nombre representante: " + clientes[i].representante + "\n";
       mensaje += "Teléfono: " + clientes[i].telefono + "\n";
       mensaje += "Email: " + clientes[i].email + "\n";
-      mensaje += "Estado: " + clientes[i].estado + "\n2";
+      mensaje += "Estado: " + clientes[i].estado + "\n";
       mensaje +=
         "-------------------------------------------------------------" +
         "\n\n";
