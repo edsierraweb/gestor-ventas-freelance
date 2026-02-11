@@ -1,81 +1,347 @@
+// CONFIGURACIÓN DEL PROGRAMA ==================================
+const LLAVE_STORAGE = "clientesPotenciales";
+
+const ESTADOS = [
+  "Primer contacto con el cliente",
+  "Cotización enviada - Seguimiento 1",
+  "Cliente no ha dado respuesta - Seguimiento 2",
+  "Cliente aprueba el Servicio",
+  "Cliente no aprueba el Servicio - Dormido",
+];
+
+// DOM =====================
+const formCliente = document.getElementById("formCliente");
+const inputNombre = document.getElementById("nombre");
+const inputTelefono = document.getElementById("telefono");
+const inputEmail = document.getElementById("email");
+const inputRepresentante = document.getElementById("representante");
+const listaEstado = document.getElementById("estado");
+
+const btnReset = document.getElementById("btnReset");
+const mensaje = document.getElementById("mensaje");
+
+const filtroEstado = document.getElementById("filtroEstado");
+const listaClientes = document.getElementById("listaClientes");
+
+// Buscador + resumen
+const buscadorNombre = document.getElementById("buscadorNombre");
+const btnBuscar = document.getElementById("btnBuscar");
+const resumenClientes = document.getElementById("resumenClientes");
+
+// DATA =====================
+//Array clientes
 let clientes = [];
-let continuar = true;
 
-//cliente 1 creado
-clientes.push({
-  nombre: "Gourmet Supply",
-  telefono: 3003445678,
-  email: "info@gourmetsupply.com",
-  representante: "Mónica Pareja",
-  estado: "Seguimiento 1",
-});
-
-//cliente 2 creado
-clientes.push({
-  nombre: "Clink",
-  telefono2: 3003447890,
-  email: "info@clink.com",
-  representante: "Carolina Gil",
-  estado: "Seguimiento 1",
-});
-
-//Función para registrar los clientes
-function registrarCliente() {
-  let nombre = prompt("Ingrese el nombre del negocio:");
-  let telefono = prompt("Ingrese el teléfono del negocio:");
-  let email = prompt("Ingrese el email del negocio:");
-  let representante = prompt("Ingrese el nombre del representante:");
-
-  let cliente = {
-    nombre: nombre,
-    telefono: telefono,
-    email: email,
-    representante: representante,
-    estado: "Se agenda reunión",
-  };
-
-  clientes.push(cliente);
-  alert("¡Cliente registrado exitosamente!");
+// STORAGE =====================
+function guardarEnStorage() {
+  const json = JSON.stringify(clientes);
+  localStorage.setItem(LLAVE_STORAGE, json);
 }
 
-//Función para consultar los clientes
-function consultarClientes() {
-  if (clientes.length === 0) {
-    alert("No hay clientes registrados aún.");
+function cargarDeStorage() {
+  const data = localStorage.getItem(LLAVE_STORAGE);
+  console.log(data);
+
+  if (data) {
+    clientes = JSON.parse(data);
+    mostrarMensaje("Datos cargados desde storage ✅");
   } else {
-    let mensaje = "=== LISTA DE CLIENTES ===\n\n";
-    for (let i = 0; i < clientes.length; i++) {
-      mensaje += "Nombre del negocio: " + clientes[i].nombre + "\n";
-      mensaje += "Nombre representante: " + clientes[i].representante + "\n";
-      mensaje += "Teléfono: " + clientes[i].telefono + "\n";
-      mensaje += "Email: " + clientes[i].email + "\n";
-      mensaje += "Estado: " + clientes[i].estado + "\n";
-      mensaje +=
-        "-------------------------------------------------------------" +
-        "\n\n";
+    // Datos iniciales cargados para los clientes
+    clientes = [
+      {
+        id: Date.now(),
+        nombre: "Gourmet Supply",
+        telefono: "3003445678",
+        email: "info@gourmetsupply.com",
+        representante: "Mónica Pareja",
+        estado: "Seguimiento 1",
+      },
+      {
+        id: Date.now() + 1,
+        nombre: "Clink",
+        telefono: "3003447890",
+        email: "info@clink.com",
+        representante: "Carolina Gil",
+        estado: "Seguimiento 1",
+      },
+    ];
+    guardarEnStorage();
+    mostrarMensaje("Datos iniciales creados y guardados ✅");
+  }
+}
+
+// MENSAJES, CARGUE DE LISTA Y  =====================
+function mostrarMensaje(texto) {
+  mensaje.textContent = texto;
+  setTimeout(() => {
+    mensaje.textContent = "";
+  }, 2000);
+}
+
+function cargarListaEstados() {
+  // Cargar la lista del formulario
+  listaEstado.innerHTML = "";
+  ESTADOS.forEach((estado) => {
+    const option = document.createElement("option");
+    option.value = estado;
+    option.textContent = estado;
+    listaEstado.appendChild(option);
+  });
+
+  // Lista del filtro
+  filtroEstado.innerHTML = "";
+
+  const optionTodos = document.createElement("option");
+  optionTodos.value = "TODOS";
+  optionTodos.textContent = "Todos";
+  filtroEstado.appendChild(optionTodos);
+
+  ESTADOS.forEach((estado) => {
+    const option = document.createElement("option");
+    option.value = estado;
+    option.textContent = estado;
+    filtroEstado.appendChild(option);
+  });
+}
+
+// REDUCE (RESUMEN)=====================
+function calcularResumenClientes() {
+  const conteo = clientes.reduce((acc, cliente) => {
+    if (acc[cliente.nombre]) {
+      acc[cliente.nombre] = acc[cliente.nombre] + 1;
+    } else {
+      acc[cliente.nombre] = 1;
     }
+    return acc;
+  }, {});
 
-    alert(mensaje);
+  return conteo;
+}
+
+function renderResumenClientes() {
+  const total = clientes.length;
+
+  let nombres = "—";
+  if (total > 0) {
+    nombres = clientes.map((c) => c.nombre).join(", ");
+  }
+
+  resumenClientes.textContent = `Clientes: ${total} | Nombres: ${nombres}`;
+}
+
+// RENDERIZADO=====================
+function crearCardCliente(cliente) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.dataset.id = cliente.id;
+
+  const top = document.createElement("div");
+  top.className = "top";
+
+  const titulo = document.createElement("div");
+  titulo.innerHTML = `<strong>${cliente.nombre}</strong>`;
+
+  const estadoActual = document.createElement("div");
+  estadoActual.innerHTML = `<span class="meta">${cliente.estado}</span>`;
+
+  top.appendChild(titulo);
+  top.appendChild(estadoActual);
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.innerHTML = `
+    <div><strong>Representante:</strong> ${cliente.representante}</div>
+    <div><strong>Tel:</strong> ${cliente.telefono}</div>
+    <div><strong>Email:</strong> ${cliente.email}</div>
+  `;
+
+  const acciones = document.createElement("div");
+  acciones.className = "accionesCard";
+
+  // Cambiar estado
+  const select = document.createElement("select");
+  ESTADOS.forEach((e) => {
+    const opt = document.createElement("option");
+    opt.value = e;
+    opt.textContent = e;
+    if (e === cliente.estado) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", (event) => {
+    actualizarEstado(cliente.id, event.target.value);
+  });
+
+  // Eliminar
+  const btnEliminar = document.createElement("button");
+  btnEliminar.textContent = "Eliminar";
+  btnEliminar.className = "btnEliminar";
+  btnEliminar.addEventListener("click", () => {
+    eliminarCliente(cliente.id);
+  });
+
+  acciones.appendChild(select);
+  acciones.appendChild(btnEliminar);
+
+  card.appendChild(top);
+  card.appendChild(meta);
+  card.appendChild(acciones);
+
+  return card;
+}
+
+function renderClientes() {
+  listaClientes.innerHTML = "";
+
+  const estadoSeleccionado = filtroEstado.value;
+
+  // Filtrar por estado (si aplica)
+  let lista = clientes;
+  if (estadoSeleccionado !== "TODOS") {
+    lista = clientes.filter((c) => c.estado === estadoSeleccionado);
+  }
+
+  if (lista.length === 0) {
+    const p = document.createElement("p");
+    p.textContent = "No hay clientes para mostrar.";
+    p.className = "meta";
+    listaClientes.appendChild(p);
+    renderResumenClientes();
+    return;
+  }
+
+  lista.forEach((cliente) => {
+    const card = crearCardCliente(cliente);
+    listaClientes.appendChild(card);
+  });
+
+  renderResumenClientes();
+}
+
+function renderSoloCliente(cliente) {
+  listaClientes.innerHTML = "";
+
+  if (!cliente) {
+    const p = document.createElement("p");
+    p.textContent = "No se encontró ningún cliente con ese nombre.";
+    p.className = "meta";
+    listaClientes.appendChild(p);
+    renderResumenClientes();
+    return;
+  }
+
+  const card = crearCardCliente(cliente);
+  listaClientes.appendChild(card);
+
+  renderResumenClientes();
+}
+
+// FUNCIONES DEL PROGAMA/SIMULADOR ============================================================
+function crearCliente(nombre, telefono, email, representante, estado) {
+  return {
+    id: Date.now(),
+    nombre: nombre.trim(),
+    telefono: telefono.trim(),
+    email: email.trim(),
+    representante: representante.trim(),
+    estado: estado,
+  };
+}
+
+function agregarCliente(cliente) {
+  clientes.push(cliente);
+  guardarEnStorage();
+  renderClientes();
+}
+
+function actualizarEstado(id, nuevoEstado) {
+  const cliente = clientes.find((c) => c.id === id);
+  if (cliente) {
+    cliente.estado = nuevoEstado;
+    guardarEnStorage();
+    renderClientes();
+    mostrarMensaje("Estado actualizado ✅");
   }
 }
 
-//ciclo while para mostrar en la pantalla el menú del sistema
-while (continuar) {
-  let opcion = prompt(
-    "=== SISTEMA DE CLIENTES POTENCIALES ===\n\n" +
-      "1. Registrar nuevo cliente\n" +
-      "2. Ver todos los clientes\n" +
-      "3. Salir\n\n" +
-      "Elige una opción:",
-  );
-  if (opcion === "1") {
-    registrarCliente();
-  } else if (opcion === "2") {
-    consultarClientes();
-  } else if (opcion === "3") {
-    alert("¡Gracias por usar el sistema! Hasta pronto.");
-    continuar = false;
-  } else {
-    alert("Opción no válida. Por favor seleccione 1, 2 o 3.");
-  }
+function eliminarCliente(id) {
+  clientes = clientes.filter((c) => c.id !== id);
+  guardarEnStorage();
+  renderClientes();
+  mostrarMensaje("Cliente eliminado ✅");
 }
+
+function resetearSistema() {
+  localStorage.removeItem(LLAVE_STORAGE);
+  clientes = [];
+  cargarDeStorage();
+  renderClientes();
+  mostrarMensaje("Storage reiniciado ✅");
+}
+
+// BUSCADOR (FIND)==========================================================
+function buscarClientePorNombre(texto) {
+  const textoLimpio = texto.trim().toLowerCase();
+
+  const encontrado = clientes.find((c) => {
+    return c.nombre.toLowerCase().includes(textoLimpio);
+  });
+
+  return encontrado; // elemento o undefined
+}
+
+// EVENTOS======================================================================
+formCliente.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const nombre = inputNombre.value;
+  const telefono = inputTelefono.value;
+  const email = inputEmail.value;
+  const representante = inputRepresentante.value;
+  const estado = listaEstado.value;
+
+  if (!nombre || !telefono || !email || !representante) {
+    mostrarMensaje("Completa todos los campos.");
+    return;
+  }
+
+  const cliente = crearCliente(nombre, telefono, email, representante, estado);
+  agregarCliente(cliente);
+
+  formCliente.reset();
+  listaEstado.value = ESTADOS[0];
+  mostrarMensaje("Cliente agregado ✅");
+});
+
+btnReset.addEventListener("click", () => {
+  resetearSistema();
+});
+
+filtroEstado.addEventListener("change", () => {
+  renderClientes(); // Cuando el filtro cambie, actualiza la lista de clientes en pantalla.
+});
+
+// Buscar (click)
+btnBuscar.addEventListener("click", () => {
+  const texto = buscadorNombre.value;
+
+  if (texto.trim() === "") {
+    renderClientes();
+    return;
+  }
+
+  const cliente = buscarClientePorNombre(texto);
+  renderSoloCliente(cliente);
+});
+
+// Si borran el texto, vuelve a la lista normal
+buscadorNombre.addEventListener("keyup", (event) => {
+  if (event.target.value.trim() === "") {
+    renderClientes();
+  }
+});
+
+// INICIAR ===================================================================
+cargarListaEstados();
+cargarDeStorage();
+renderClientes();

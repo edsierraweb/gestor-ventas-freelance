@@ -1,21 +1,102 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles.css" />
-    <title>Gestor de proyectos Freelance</title>
+    <title>GPF - Gestor de Clientes Potenciales</title>
   </head>
+
   <body>
     <h1>GPF</h1>
     <h3>Gestor de Proyectos Freelance</h3>
-    <p>
+
+    <p class="descripcion">
       Este sistema permite registrar y dar seguimiento a los clientes
       potenciales de tu marca personal. Podrás organizar y monitorear a las
-      personas o empresas que han mostrado interés en tus servicios, utilizando
-      un método de seguimiento que te ayude a mantener el contacto y evitar que
-      los clientes potenciales se enfríen.
+      personas o empresas que han mostrado interés en tus servicios, usando un
+      método de seguimiento para evitar que se enfríen.
     </p>
+
+    <section class="panel">
+      <h2>Registrar cliente potencial</h2>
+
+      <form id="formCliente" class="form">
+        <div class="grid">
+          <div class="campo">
+            <label for="nombre">Nombre / Empresa</label>
+            <input
+              id="nombre"
+              type="text"
+              placeholder="Ej: Gourmet Supply"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="telefono">Teléfono</label>
+            <input
+              id="telefono"
+              type="text"
+              placeholder="Ej: 3001234567"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Ej: info@empresa.com"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="representante">Representante</label>
+            <input
+              id="representante"
+              type="text"
+              placeholder="Ej: Carolina Gil"
+              required
+            />
+          </div>
+
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" required></select>
+          </div>
+        </div>
+
+        <div class="acciones">
+          <button type="submit" id="btnAgregar">Agregar</button>
+          <button type="button" id="btnReset">Borrar todo (Storage)</button>
+        </div>
+
+        <p id="mensaje" class="mensaje" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="barra">
+        <h2>Clientes</h2>
+        <div class="buscador">
+          <label for="buscadorNombre">Buscar (nombre/empresa):</label>
+          <input id="buscadorNombre" type="text" placeholder="Ej: Clink" />
+          <button type="button" id="btnBuscar">Buscar</button>
+        </div>
+
+        <p id="resumenClientes" class="meta"></p>
+        <div class="filtro">
+          <label for="filtroEstado">Filtrar:</label>
+          <select id="filtroEstado"></select>
+        </div>
+      </div>
+
+      <div id="listaClientes" class="lista"></div>
+    </section>
+
     <script src="./main.js"></script>
   </body>
 </html>
