@@ -38,35 +38,21 @@ function guardarEnStorage() {
   localStorage.setItem(LLAVE_STORAGE, json);
 }
 
-function cargarDeStorage() {
+async function cargarDeStorage() {
   const data = localStorage.getItem(LLAVE_STORAGE);
-  console.log(data);
-
   if (data) {
     clientes = JSON.parse(data);
     mostrarMensaje("Datos cargados desde storage ✅");
   } else {
-    // Datos iniciales cargados para los clientes
-    clientes = [
-      {
-        id: Date.now(),
-        nombre: "Gourmet Supply",
-        telefono: "3003445678",
-        email: "info@gourmetsupply.com",
-        representante: "Mónica Pareja",
-        estado: "Seguimiento 1",
-      },
-      {
-        id: Date.now() + 1,
-        nombre: "Clink",
-        telefono: "3003447890",
-        email: "info@clink.com",
-        representante: "Carolina Gil",
-        estado: "Seguimiento 1",
-      },
-    ];
-    guardarEnStorage();
-    mostrarMensaje("Datos iniciales creados y guardados ✅");
+    try {
+      const response = await fetch("./clientes.json");
+      const dataJson = await response.json();
+      clientes = dataJson;
+      guardarEnStorage();
+      mostrarMensaje("Datos iniciales cargados desde JSON ✅");
+    } catch (error) {
+      mostrarMensaje("Error al cargar clientes iniciales ❌");
+    }
   }
 }
 
@@ -76,6 +62,20 @@ function mostrarMensaje(texto) {
   setTimeout(() => {
     mensaje.textContent = "";
   }, 2000);
+}
+
+function mostrarMensajeAlert(texto) {
+  mensaje.textContent = texto;
+  setTimeout(() => {
+    mensaje.textContent = "";
+  }, 2000);
+
+  Swal.fire({
+    title: "Gestor de Proyectos Freelance",
+    text: texto,
+    icon: "success",
+    confirmButtonText: "Aceptar",
+  });
 }
 
 function cargarListaEstados() {
@@ -265,18 +265,55 @@ function actualizarEstado(id, nuevoEstado) {
 }
 
 function eliminarCliente(id) {
-  clientes = clientes.filter((c) => c.id !== id);
-  guardarEnStorage();
-  renderClientes();
-  mostrarMensaje("Cliente eliminado ✅");
+  Swal.fire({
+    title: "¿Eliminar cliente?",
+    text: "Esta acción no se puede deshacer.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      clientes = clientes.filter((c) => c.id !== id);
+      guardarEnStorage();
+      renderClientes();
+
+      Swal.fire({
+        title: "Eliminado",
+        text: "El cliente fue eliminado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
+      mostrarMensaje("Cliente eliminado ✅");
+    }
+  });
 }
 
 function resetearSistema() {
-  localStorage.removeItem(LLAVE_STORAGE);
-  clientes = [];
-  cargarDeStorage();
-  renderClientes();
-  mostrarMensaje("Storage reiniciado ✅");
+  Swal.fire({
+    title: "¿Resetear sistema?",
+    text: "Se eliminarán los datos guardados y se volverán a cargar los clientes iniciales.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, resetear",
+    cancelButtonText: "Cancelar",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem(LLAVE_STORAGE);
+      clientes = [];
+
+      await cargarDeStorage();
+      renderClientes();
+
+      Swal.fire({
+        title: "Sistema reseteado",
+        text: "Los datos iniciales se cargaron correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
+      mostrarMensaje("Storage reiniciado ✅");
+    }
+  });
 }
 
 // BUSCADOR (FIND)==========================================================
@@ -310,7 +347,7 @@ formCliente.addEventListener("submit", (event) => {
 
   formCliente.reset();
   listaEstado.value = ESTADOS[0];
-  mostrarMensaje("Cliente agregado ✅");
+  mostrarMensajeAlert("Cliente agregado ✅");
 });
 
 btnReset.addEventListener("click", () => {
@@ -342,6 +379,10 @@ buscadorNombre.addEventListener("keyup", (event) => {
 });
 
 // INICIAR ===================================================================
-cargarListaEstados();
-cargarDeStorage();
-renderClientes();
+async function iniciarApp() {
+  cargarListaEstados();
+  await cargarDeStorage();
+  renderClientes();
+}
+
+iniciarApp();

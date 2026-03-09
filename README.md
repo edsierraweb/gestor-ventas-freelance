@@ -8,7 +8,7 @@ Sistema de gestión de clientes potenciales diseñado para freelancers que neces
 
 - **Registro de Clientes**: Formulario para agregar nuevos clientes potenciales con su información de contacto
 - **Visualización de Clientes**: Lista completa de todos los clientes registrados
-- **Gestión de Estados**: Sistema de seguimiento con 6 estados posibles:
+- **Gestión de Estados**: Sistema de seguimiento con 5 estados posibles:
   - "Primer contacto con el cliente"
   - "Cotización enviada - Seguimiento 1"
   - "Cliente no ha dado respuesta - Seguimiento 2"
@@ -40,15 +40,15 @@ GPF/
 
 ## Cómo Usar
 
-1. Abrir el archivo `index.html` en un navegador web
+1. Abrir el en enlace https://edsierraweb.github.io/gestor-ventas-freelance/
 2. Completar el formulario con los datos del cliente potencial
-3. Hacer clic en "Registrar Cliente" para agregar el cliente
+3. Hacer clic en "Agregar" para agregar el cliente
 4. Ver la lista de clientes registrados en la sección inferior
 5. Actualizar el estado de seguimiento usando el selector desplegable en cada tarjeta de cliente
 
 ## Características Técnicas
 
-- **Sin dependencias externas**: Proyecto desarrollado con JavaScript puro
+- **con dependencias externas**: Proyecto desarrollado con JavaScript y con una dependencia externa a la libreria SweetAlert para las alertas del sistema con el usuario.
 - **Gestión de datos**: Implementación de localStorage
 - **Interfaz interactiva**: Uso de eventos del DOM sin `alert()` ni `prompt()`
 - **Buenas prácticas**: Código comentado, nombres expresivos y estructura ordenada
@@ -60,5 +60,5 @@ Proyecto desarrollado Por Edwin Sierra como parte del curso de JavaScript en Cod
 ## Notas
 
 - Los datos se almacenan localmente en el navegador
-- Al abrir la aplicación por primera vez, se cargan 2 clientes de ejemplo
+- Al abrir la aplicación por primera vez, se cargan 20 clientes de ejemplo
 - Los datos persisten aunque se cierre el navegador

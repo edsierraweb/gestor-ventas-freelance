@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "nombre": "Nova Industrial",
+    "telefono": "3002113456",
+    "email": "contacto@novaindustrial.com",
+    "representante": "Ángela Ramírez",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 2,
+    "nombre": "Café Montaña",
+    "telefono": "3014567821",
+    "email": "contacto@cafemontana.com",
+    "representante": "Laura Gómez",
+    "estado": "Primer contacto con el cliente"
+  },
+  {
+    "id": 3,
+    "nombre": "TecnoRed Solutions",
+    "telefono": "3025678934",
+    "email": "ventas@tecnoredsolutions.com",
+    "representante": "Andrés Salazar",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 4,
+    "nombre": "Distribuciones El Roble",
+    "telefono": "3036789045",
+    "email": "servicio@elroble.com",
+    "representante": "Paula Restrepo",
+    "estado": "Cliente no ha dado respuesta - Seguimiento 2"
+  },
+  {
+    "id": 5,
+    "nombre": "Clínica Bienestar",
+    "telefono": "3047890156",
+    "email": "info@clinicabienestar.com",
+    "representante": "Sebastián Ruiz",
+    "estado": "Cliente aprueba el Servicio"
+  },
+  {
+    "id": 6,
+    "nombre": "Innova Construcciones",
+    "telefono": "3058901267",
+    "email": "gerencia@innovaconstrucciones.com",
+    "representante": "Carolina Vélez",
+    "estado": "Primer contacto con el cliente"
+  },
+  {
+    "id": 7,
+    "nombre": "Verde Hogar",
+    "telefono": "3069012378",
+    "email": "contacto@verdehogar.com",
+    "representante": "Diana Marcela Ortiz",
+    "estado": "Cliente aprueba el Servicio"
+  },
+  {
+    "id": 8,
+    "nombre": "Logística Andina",
+    "telefono": "3070123489",
+    "email": "comercial@logisticaandina.com",
+    "representante": "Juan Camilo Mejía",
+    "estado": "Cliente no ha dado respuesta - Seguimiento 2"
+  },
+  {
+    "id": 9,
+    "nombre": "Market Plus",
+    "telefono": "3081234590",
+    "email": "hola@marketplus.com",
+    "representante": "Natalia Sánchez",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 10,
+    "nombre": "Panadería La Espiga",
+    "telefono": "3092345601",
+    "email": "pedidos@laespiga.com",
+    "representante": "Carlos Arboleda",
+    "estado": "Cliente no aprueba el Servicio - Dormido"
+  },
+  {
+    "id": 11,
+    "nombre": "Studio Creativo 21",
+    "telefono": "3103456712",
+    "email": "info@studiocreativo21.com",
+    "representante": "Valentina Herrera",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 12,
+    "nombre": "Maderas del Norte",
+    "telefono": "3114567823",
+    "email": "ventas@maderasdelnorte.com",
+    "representante": "Felipe Cardona",
+    "estado": "Primer contacto con el cliente"
+  },
+  {
+    "id": 13,
+    "nombre": "OdontoCare",
+    "telefono": "3125678934",
+    "email": "agenda@odontocare.com",
+    "representante": "Mariana Toro",
+    "estado": "Cliente aprueba el Servicio"
+  },
+  {
+    "id": 14,
+    "nombre": "Agroinsumos del Valle",
+    "telefono": "3136789045",
+    "email": "asesoria@agroinsumosdelvalle.com",
+    "representante": "Jorge Iván Pérez",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 15,
+    "nombre": "Belleza Natural Spa",
+    "telefono": "3147890156",
+    "email": "reservas@bellezanaturalspa.com",
+    "representante": "Liliana Franco",
+    "estado": "Cliente aprueba el Servicio"
+  },
+  {
+    "id": 16,
+    "nombre": "Seguridad Integral Pro",
+    "telefono": "3158901267",
+    "email": "comercial@seguridadintegralpro.com",
+    "representante": "Ricardo Bedoya",
+    "estado": "Cliente no ha dado respuesta - Seguimiento 2"
+  },
+  {
+    "id": 17,
+    "nombre": "Textiles Aurora",
+    "telefono": "3169012378",
+    "email": "contacto@textilesaurora.com",
+    "representante": "Ana Sofía Quintero",
+    "estado": "Primer contacto con el cliente"
+  },
+  {
+    "id": 18,
+    "nombre": "Pet World Shop",
+    "telefono": "3170123489",
+    "email": "ventas@petworldshop.com",
+    "representante": "Camilo Giraldo",
+    "estado": "Cotización enviada - Seguimiento 1"
+  },
+  {
+    "id": 19,
+    "nombre": "Academia Horizonte",
+    "telefono": "3181234590",
+    "email": "info@academiahorizonte.com",
+    "representante": "Patricia Londoño",
+    "estado": "Cliente aprueba el Servicio"
+  },
+  {
+    "id": 20,
+    "nombre": "Ferretería Central",
+    "telefono": "3192345601",
+    "email": "servicio@ferreteriacentral.com",
+    "representante": "Diego Fernández",
+    "estado": "Cliente no aprueba el Servicio - Dormido"
+  }
+]
